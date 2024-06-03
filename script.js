@@ -8,5 +8,13 @@ class Ball {
         this.dx = dx;
         this.dy = dy;
         this.color = color;
-    };
+    }
+    drawBall(ctx){
+        ctx.beginpath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2, false);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+    }
 };
+let canvas = document.querySelector("#canvas");
+let ctx = canvas.getContext("2d");
