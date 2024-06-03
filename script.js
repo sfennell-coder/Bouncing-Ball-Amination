@@ -1,8 +1,8 @@
 //U86364709
 
 
-let canvas = document.querySelector("#animation");
-let ctx = canvas.getContext("2d");
+const canvas = document.querySelector("#canvas");
+const ctx = canvas.getContext("2d");
 
 let width = canvas.width;
 let height = canvas.height;
@@ -18,28 +18,41 @@ class Ball {
         this.color = color;
     }
     // Draw method
-    drawBall(ctx){
+    drawBall(){
         ctx.fillStyle = this.color;
-        ctx.beginpath();
+        ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2, false);
         ctx.fill();
+        ctx.closePath();
     }
     // Update method for handling movement of ball
-    updateBall(canvas){
+    updateBall(){
         this.x += this.dx;
         this.y += this.dy;
-
-        if(this.x + this.radius > canvas.width || this.x - this.radius  <= 0 ){
-            this.dx -= this.dx;
+        if(this.x + this.dx > canvas.width - this.radius|| this.x + this.dx < this.radius){
+            this.dx = -this.dx;
         }
-        if(this.y + this.radius > canvas.height || this.y - this.radius <= 0){
-            this.dy -= this.dy;
+        if(this.y + this.dy > canvas.height - this.radius || this.y + this.dy < this.radius){
+            this.dy = -this.dy;
         }
     }
     draw(){
         ctx.clearRect(0, 0, width, height);
         this.drawBall();
     }
+    // Animation with interval
+    animationLogic() {
+        setInterval(() => {
+            this.updateBall();
+            this.draw();
+    }, 15); 
 }
 
 
+}
+
+
+const testData = new Ball(200, 160, 20, 2, 2, "red");
+
+testData.drawBall();
+testData.animationLogic();
